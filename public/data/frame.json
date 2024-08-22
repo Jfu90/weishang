@@ -1,0 +1,29 @@
+{
+  "menu": [
+    {
+      "icon": "weishang-icon-01.svg",
+      "url": "/home",
+      "title": "控制台"
+    },
+    {
+      "icon": "weishang-icon-02.svg",
+      "url": "/netflow-total",
+      "title": "傳輸 Total"
+    },
+    {
+      "icon": "weishang-icon-03.svg",
+      "url": "/netflow-rate",
+      "title": "傳輸 Rate"
+    },
+    {
+      "icon": "weishang-icon-04.svg",
+      "url": "/netflow-graph",
+      "title": "監控 Graph"
+    },
+    {
+      "icon": "weishang-icon-05.svg",
+      "url": "/reports",
+      "title": "報表"
+    }
+  ]
+}

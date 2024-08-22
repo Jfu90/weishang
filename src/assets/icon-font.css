@@ -1,0 +1,48 @@
+@font-face {
+  font-family: 'icomoon';
+  src: url('https://i.icomoon.io/public/temp/d39eaf134c/UntitledProject/icomoon.eot?26ucdd');
+  src:
+    url('https://i.icomoon.io/public/temp/d39eaf134c/UntitledProject/icomoon.eot?26ucdd#iefix')
+      format('embedded-opentype'),
+    url('https://i.icomoon.io/public/temp/d39eaf134c/UntitledProject/icomoon.ttf?26ucdd')
+      format('truetype'),
+    url('https://i.icomoon.io/public/temp/d39eaf134c/UntitledProject/icomoon.woff?26ucdd')
+      format('woff'),
+    url('https://i.icomoon.io/public/temp/d39eaf134c/UntitledProject/icomoon.svg?26ucdd#icomoon')
+      format('svg');
+  font-weight: normal;
+  font-style: normal;
+  font-display: block;
+}
+
+[class^='icon-'],
+[class*=' icon-'] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'icomoon' !important;
+  speak: never;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-weishang-toolicon-box:before {
+  content: '\e900';
+}
+.icon-weishang-toolicon-fileHTML:before {
+  content: '\e901';
+}
+.icon-weishang-toolicon-filePDF:before {
+  content: '\e902';
+}
+.icon-weishang-toolicon-signout:before {
+  content: '\e903';
+}
+.icon-weishang-toolicon-stting:before {
+  content: '\e904';
+}
