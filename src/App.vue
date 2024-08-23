@@ -1,6 +1,6 @@
 <script setup>
-import { RouterLink, RouterView } from 'vue-router'
-import { ref } from 'vue'
+import { RouterLink, RouterView, useRoute } from 'vue-router'
+import { computed, ref } from 'vue'
 
 const links = ref([
   {
@@ -29,6 +29,12 @@ const links = ref([
     title: '報表'
   }
 ])
+
+const route = useRoute()
+const nowURL = computed(() => {
+  const urlSplit = route.path.split('/')
+  return urlSplit
+})
 </script>
 
 <template>
@@ -41,17 +47,19 @@ const links = ref([
       >
         <li class="nav-item flex-fill d-flex" v-for="(link, idx) in links" :key="idx">
           <RouterLink
-            :to="`/menu/${link.url}`"
+            :to="link.url"
             class="flex-fill align-content-center nav-link"
-            :class="link.url === `/${$route.params.menuName}` ? 'active' : ''"
-            ><img :src="`/images/${link.icon}`" alt="主控台" />
+            :class="link.url === `/${nowURL[1]}` ? 'active' : ''"
+            ><img :src="`/images/${link.icon}`" :alt="link.title" />
             <p class="text-light">{{ link.title }}</p></RouterLink
           >
         </li>
       </ul>
     </div>
-    <footer class="text-center text-dark-800 mt-2">
-      <small> © 2024 崴尚資訊 All Rights Reserved.</small>
+    <footer class="text-dark-800">
+      <small class="position-absolute" style="margin-left: -118px; margin-top: 10px">
+        © 2024 崴尚資訊 All Rights Reserved.</small
+      >
     </footer>
   </div>
 </template>

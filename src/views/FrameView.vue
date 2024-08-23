@@ -1,8 +1,9 @@
 <script setup>
 import { RouterLink, RouterView, useRoute, useRouter } from 'vue-router'
-import { ref } from 'vue'
+import { computed, onMounted, ref, watch } from 'vue'
 
 const links = ref({
+  home: [],
   'netflow-total': [
     {
       url: 'download-netflow',
@@ -29,28 +30,31 @@ const links = ref({
       title: '進階查詢'
     }
   ],
-  'netflow-rate': [
-    {
-      url: 'rate-netflow',
-      title: 'rate流量'
-    }
-  ],
-  'netflow-graph': [
-    {
-      url: 'graph-netflow',
-      title: 'graph'
-    }
-  ]
+  'netflow-rate': [],
+  'netflow-graph': [],
+  reports: []
 })
 
 const route = useRoute()
 const router = useRouter()
 const pageLinks = ref([])
+const nowURL = computed(() => {
+  const urlSplit = route.path.split('/')
+  return urlSplit
+})
 
-pageLinks.value = links.value[route.params.menuName]
-// console.log(pageLinks.value)
+const renewUrl = () => {
+  pageLinks.value.length = 0
+  pageLinks.value = [...links.value[nowURL.value[1]]]
+  if (!nowURL.value[2] && pageLinks.value.length > 0) {
+    router.push({ path: `/${nowURL.value[1]}/${pageLinks.value[0].url}` })
+  }
+}
+renewUrl()
 
-router.push({ path: `/${route.params.menuName}/${pageLinks.value[0].url}` })
+onMounted(() => {
+  watch(nowURL, renewUrl)
+})
 </script>
 
 <template>
@@ -62,8 +66,8 @@ router.push({ path: `/${route.params.menuName}/${pageLinks.value[0].url}` })
       <ul class="nav me-auto">
         <li class="nav-item" v-for="(link, idx) in pageLinks" :key="idx">
           <RouterLink
-            :to="`/${$route.params.menuName}/${link.url}`"
-            :class="link.url === $route.params.listName ? 'active' : ''"
+            :to="`/${nowURL[1]}/${link.url}`"
+            :class="link.url === nowURL[2] ? 'active' : ''"
             class="nav-link rounded-pill me-2"
             >{{ link.title }}</RouterLink
           >
@@ -78,10 +82,10 @@ router.push({ path: `/${route.params.menuName}/${pageLinks.value[0].url}` })
         class="btn btn-outline-light rounded-pill me-2"
         style="padding: 8.5px 9.32px 5.5px"
       >
-        <span class="icon-weishang-toolicon-stting fs-5"></span>
+        <i class="icon-weishang-toolicon-setting fs-5"></i>
       </button>
       <button type="button" class="btn btn-outline-light rounded-pill" style="padding: 7px 9.64px">
-        <span class="icon-weishang-toolicon-signout"></span>
+        <i class="icon-weishang-toolicon-signout"></i>
       </button>
     </nav>
     <RouterView />

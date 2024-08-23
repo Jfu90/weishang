@@ -11,32 +11,60 @@ const router = createRouter({
     },
     {
       path: '/home',
-      component: HomeView
-    },
-    // {
-    //   path: '/netflow-total',
-    //   component: () => import('../views/FrameView.vue')
-    // },
-    // {
-    //   path: '/netflow-rate',
-    //   component: () => import('../views/FrameView.vue')
-    // },
-    // {
-    //   path: '/netflow-graph',
-    //   component: () => import('../views/FrameView.vue')
-    // },
-    // {
-    //   path: '/reports',
-    //   component: () => import('../views/FrameView.vue')
-    // }
-    {
-      path: '/menu/:menuName',
       component: () => import('../views/FrameView.vue'),
       children: [
         {
-          path: 'list/:listName',
-          component: () => import('../views/ContentView.vue')
+          path: '',
+          component: () => import('../views/NotfindView.vue')
         }
+      ]
+    },
+    {
+      path: '/netflow-total',
+      component: () => import('../views/FrameView.vue'),
+      children: [
+        {
+          path: '',
+          component: () => import('../views/NotfindView.vue')
+        },
+        {
+          path: 'download-netflow',
+          component: () => import('../views/DownloadNetflowView.vue')
+        },
+        { path: ':pathMatch(.*)*', component: () => import('../views/NotfindView.vue') }
+      ]
+    },
+    {
+      path: '/netflow-rate',
+      component: () => import('../views/FrameView.vue'),
+      children: [
+        {
+          path: '',
+          component: () => import('../views/NotfindView.vue')
+        },
+        { path: ':pathMatch(.*)*', component: () => import('../views/NotfindView.vue') }
+      ]
+    },
+    {
+      path: '/netflow-graph',
+      component: () => import('../views/FrameView.vue'),
+      children: [
+        {
+          path: '',
+          component: () => import('../views/NotfindView.vue')
+        },
+        { path: ':pathMatch(.*)*', component: () => import('../views/NotfindView.vue') }
+      ]
+    },
+    {
+      path: '/reports',
+      component: () => import('../views/FrameView.vue'),
+      children: [
+        {
+          path: '',
+          component: () => import('../views/NotfindView.vue')
+        },
+        { path: ':pathMatch(.*)*', component: () => import('../views/NotfindView.vue') }
       ]
     }
   ]
