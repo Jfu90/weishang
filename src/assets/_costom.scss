@@ -57,7 +57,27 @@ body {
   }
 }
 
-.tableTitleFixed {
-  position: relative;
-  overflow: auto;
+ul.table-body {
+  padding: 0;
+  margin: 0;
+}
+
+.scrollbar {
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: $secondary;
+}
+
+.maxh-560 {
+  max-height: calc(630px - 70px);
+}
+.maxh-523 {
+  max-height: calc(630px - 32px - 35px - 40px);
 }

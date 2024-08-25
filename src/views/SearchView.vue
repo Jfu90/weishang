@@ -132,89 +132,156 @@ onMounted(() => {
     <div class="row" style="height: 630px">
       <div class="col-3 text-dark-700 bg-light p-0">
         <form class="px-3 pt-3 scrollbar border-bottom maxh-560">
-          <div class="row mb-2">
-            <label for="selectCon" class="col-4 col-form-label">選擇容器</label>
-            <div class="col-8">
-              <select id="selectCon" class="form-select" v-model="selectDatas.container">
-                <option value="all">所有容器</option>
-              </select>
-            </div>
-          </div>
-          <div class="row mb-2">
-            <label for="selectTime" class="col-4 col-form-label">過濾時段</label>
-            <div class="col-8">
-              <select id="selectTime" class="form-select" v-model="selectDatas.catchTime">
-                <option value="15">過去15分鐘</option>
-                <option value="30">過去30分鐘</option>
-                <option value="60">過去1小時</option>
-                <option value="180">過去3小時</option>
-                <option value="720">過去12小時</option>
-                <option value="1440">過去24小時</option>
-                <option value="costom">自訂時段</option>
-              </select>
-            </div>
-          </div>
-          <div v-show="selectDatas.catchTime === 'costom'">
-            <div class="row mb-2">
-              <label for="startDate" class="col-4 col-form-label">開始日期</label>
-              <div class="col-8">
-                <input
-                  type="date"
-                  class="form-control"
-                  id="startDate"
-                  v-model="selectDatas.sDate"
-                />
+          <div class="accordion">
+            <div class="accordion-item border-0 bg-light">
+              <h2 class="accordion-header" id="headingOne">
+                <button
+                  class="accordion-button px-0 py-2 bg-light shadow-none rounded-0"
+                  type="button"
+                  data-bs-toggle="collapse"
+                  data-bs-target="#collapseOne"
+                  aria-expanded="true"
+                  aria-controls="collapseOne"
+                >
+                  容器 & 時間
+                </button>
+              </h2>
+              <div
+                id="collapseOne"
+                class="accordion-collapse collapse show"
+                aria-labelledby="headingOne"
+              >
+                <div class="accordion-body px-0 py-2">
+                  <div class="row mb-2">
+                    <label for="selectCon" class="col-4 col-form-label">選擇容器</label>
+                    <div class="col-8">
+                      <select id="selectCon" class="form-select" v-model="selectDatas.container">
+                        <option value="all">所有容器</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="row mb-2">
+                    <label for="selectTime" class="col-4 col-form-label">過濾時段</label>
+                    <div class="col-8">
+                      <select id="selectTime" class="form-select" v-model="selectDatas.catchTime">
+                        <option value="15">過去15分鐘</option>
+                        <option value="30">過去30分鐘</option>
+                        <option value="60">過去1小時</option>
+                        <option value="180">過去3小時</option>
+                        <option value="720">過去12小時</option>
+                        <option value="1440">過去24小時</option>
+                        <option value="costom">自訂時段</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div v-show="selectDatas.catchTime === 'costom'">
+                    <div class="row mb-2">
+                      <label for="startDate" class="col-4 col-form-label">開始日期</label>
+                      <div class="col-8">
+                        <input
+                          type="date"
+                          class="form-control"
+                          id="startDate"
+                          v-model="selectDatas.sDate"
+                        />
+                      </div>
+                    </div>
+                    <div class="row mb-2">
+                      <label for="startTime" class="col-4 col-form-label">時間</label>
+                      <div class="col-8">
+                        <input
+                          type="time"
+                          class="form-control"
+                          id="startTime"
+                          v-model="selectDatas.sTime"
+                        />
+                      </div>
+                    </div>
+                    <div class="row mb-2">
+                      <label for="endDate" class="col-4 col-form-label">結束時間</label>
+                      <div class="col-8">
+                        <input
+                          type="date"
+                          class="form-control"
+                          id="endDate"
+                          v-model="selectDatas.eDate"
+                        />
+                      </div>
+                    </div>
+                    <div class="row mb-2">
+                      <label for="endTime" class="col-4 col-form-label">時間</label>
+                      <div class="col-8">
+                        <input
+                          type="time"
+                          class="form-control"
+                          id="endTime"
+                          v-model="selectDatas.eTime"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
-            <div class="row mb-2">
-              <label for="startTime" class="col-4 col-form-label">時間</label>
-              <div class="col-8">
-                <input
-                  type="time"
-                  class="form-control"
-                  id="startTime"
-                  v-model="selectDatas.sTime"
-                />
+            <hr />
+            <div class="accordion-item border-0 bg-light">
+              <h2 class="accordion-header" id="headingTwo">
+                <button
+                  class="accordion-button collapsed px-0 py-2 bg-light shadow-none rounded-0"
+                  type="button"
+                  data-bs-toggle="collapse"
+                  data-bs-target="#collapseTwo"
+                  aria-expanded="false"
+                  aria-controls="collapseTwo"
+                >
+                  設置區段
+                </button>
+              </h2>
+              <div
+                id="collapseTwo"
+                class="accordion-collapse collapse"
+                aria-labelledby="headingTwo"
+              >
+                <div class="accordion-body px-0 py-2">
+                  <div class="row mb-2">
+                    <label for="setSIP" class="col-4 col-form-label">SIP</label>
+                    <div class="col-8">
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="setSIP"
+                        v-model="selectDatas.sip"
+                      />
+                    </div>
+                  </div>
+                  <div class="row mb-2">
+                    <label for="setSP" class="col-4 col-form-label">SP</label>
+                    <div class="col-8">
+                      <input type="text" class="form-control" id="setSP" v-model="selectDatas.sp" />
+                    </div>
+                  </div>
+                  <div class="row mb-2">
+                    <label for="setDIP" class="col-4 col-form-label">DIP</label>
+                    <div class="col-8">
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="setDIP"
+                        v-model="selectDatas.dip"
+                      />
+                    </div>
+                  </div>
+                  <div class="row mb-2">
+                    <label for="setDP" class="col-4 col-form-label">DP</label>
+                    <div class="col-8">
+                      <input type="text" class="form-control" id="setDP" v-model="selectDatas.dp" />
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
-            <div class="row mb-2">
-              <label for="endDate" class="col-4 col-form-label">結束時間</label>
-              <div class="col-8">
-                <input type="date" class="form-control" id="endDate" v-model="selectDatas.eDate" />
-              </div>
-            </div>
-            <div class="row mb-2">
-              <label for="endTime" class="col-4 col-form-label">時間</label>
-              <div class="col-8">
-                <input type="time" class="form-control" id="endTime" v-model="selectDatas.eTime" />
-              </div>
-            </div>
           </div>
-          <hr />
-          <div class="row mb-2">
-            <label for="setSIP" class="col-4 col-form-label">SIP</label>
-            <div class="col-8">
-              <input type="text" class="form-control" id="setSIP" v-model="selectDatas.sip" />
-            </div>
-          </div>
-          <div class="row mb-2">
-            <label for="setSP" class="col-4 col-form-label">SP</label>
-            <div class="col-8">
-              <input type="text" class="form-control" id="setSP" v-model="selectDatas.sp" />
-            </div>
-          </div>
-          <div class="row mb-2">
-            <label for="setDIP" class="col-4 col-form-label">DIP</label>
-            <div class="col-8">
-              <input type="text" class="form-control" id="setDIP" v-model="selectDatas.dip" />
-            </div>
-          </div>
-          <div class="row mb-2">
-            <label for="setDP" class="col-4 col-form-label">DP</label>
-            <div class="col-8">
-              <input type="text" class="form-control" id="setDP" v-model="selectDatas.dp" />
-            </div>
-          </div>
+
           <hr />
           <div class="row mb-2">
             <label for="showLists" class="col-2 col-form-label pe-0">筆數</label>

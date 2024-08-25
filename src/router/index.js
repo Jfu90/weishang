@@ -31,6 +31,10 @@ const router = createRouter({
           path: 'download-netflow',
           component: () => import('../views/DownloadNetflowView.vue')
         },
+        {
+          path: 'search',
+          component: () => import('../views/SearchView.vue')
+        },
         { path: ':pathMatch(.*)*', component: () => import('../views/NotfindView.vue') }
       ]
     },
