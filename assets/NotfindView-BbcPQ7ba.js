@@ -1,1 +1,0 @@
-import{_ as t,b as s,d as c,e}from"./index-Ctjq5CYF.js";const o={},n={class:"d-flex justify-content-center",style:{height:"630px"}},a=e("div",{class:"align-self-center text-center text-dark-700"},[e("i",{class:"icon-weishang-toolicon-box fs-1 mb-3"}),e("p",{class:"fs-4"},"頁面尚未建立")],-1),i=[a];function r(_,d){return s(),c("div",n,i)}const f=t(o,[["render",r]]);export{f as default};
