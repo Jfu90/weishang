@@ -1,4 +1,5 @@
 <script setup>
+import { Chart } from 'chart.js/auto'
 import { onMounted, ref } from 'vue'
 
 const datePushZero = (num) => String(num).padStart(2, '0')
@@ -53,66 +54,28 @@ const searchDatas = ref([
 ])
 const resDatas = ref([])
 const resRows = ref(0)
-
-const getDatas = () => {
-  clearDatas()
-
-  //接收DATA回傳值 to resDatas
-  resDatas.value = [{ key: 'name', content: 'Destination IP' }]
-
-  const tempData = searchDatas.value.reduce((arr, item) => {
-    const setData = ref(false)
-    //resDatas
-    const resIdx = resDatas.value.findIndex((res) => res.key === item.key)
-    if (resIdx >= 0) {
-      arr.push(Object.assign({}, item, resDatas.value[resIdx]))
-      setData.value = true
-    }
-
-    //selectDatas
-    if (selectDatas.value?.[item.key] !== undefined) {
-      const selContent = ref()
-
-      switch (item.key) {
-        case 'sTime':
-          if (selectDatas.value.catchTime != 'costom') {
-            const afterTime = new Date(Date.now() - selectDatas.value.catchTime * 1000 * 60)
-            selContent.value = `${afterTime.getFullYear()}-${datePushZero(afterTime.getMonth() + 1)}-${datePushZero(afterTime.getDate())}  ${datePushZero(afterTime.getHours())}:${datePushZero(afterTime.getMinutes())}`
-          } else selContent.value = `${selectDatas.value.sDate} ${selectDatas.value.sTime}`
-          break
-        case 'eTime':
-          if (selectDatas.value.catchTime != 'costom') {
-            const nowTime = new Date()
-            selContent.value = `${nowTime.getFullYear()}-${datePushZero(nowTime.getMonth() + 1)}-${datePushZero(nowTime.getDate())}  ${datePushZero(nowTime.getHours())}:${datePushZero(nowTime.getMinutes())}`
-          } else selContent.value = `${selectDatas.value.eDate} ${selectDatas.value.eTime}`
-          break
-        case 'rows':
-          resRows.value = selectDatas.value.rows
-          selContent.value = selectDatas.value[item.key]
-          break
-        default:
-          selContent.value = selectDatas.value[item.key]
-      }
-      arr.push(Object.assign({}, item, { content: selContent.value }))
-      setData.value = true
-    }
-
-    if (!setData.value) arr.push(item)
-
-    return arr
-  }, [])
-
-  resDatas.value = tempData
-}
-
-const clearDatas = () => {
-  resDatas.value.length = 0
-  resRows.value = 0
-}
+const chartColors = ref([
+  '#4dc9f6',
+  '#f67019',
+  '#f53794',
+  '#537bc4',
+  '#acc236',
+  '#166a8f',
+  '#00a950',
+  '#58595b',
+  '#8549ba'
+])
+let getDatas, clearDatas, createChart
 
 onMounted(() => {
   const Today = new Date()
   const dateControl = document.querySelectorAll('input[type="date"]')
+  const pie = document.querySelector('#chart')
+  const doughnut = new Chart(pie, {
+    type: 'doughnut',
+    data: { labels: [], datasets: [{ data: [], hoverOffset: 5 }] },
+    options: { plugins: { legend: { display: false } }, layout: { padding: 20 } }
+  })
 
   dateControl.forEach((e) => {
     e.setAttribute(
@@ -124,6 +87,80 @@ onMounted(() => {
       `${Today.getFullYear()}-${datePushZero(Today.getMonth() + 1)}-${datePushZero(Today.getDate())}`
     )
   })
+
+  getDatas = () => {
+    const chartData = ref({ labels: [], values: [], colors: [] })
+    clearDatas()
+
+    //接收DATA回傳值 to resDatas
+    resDatas.value = [{ key: 'name', content: 'Destination IP' }]
+
+    const tempData = searchDatas.value.reduce((arr, item) => {
+      const setData = ref(false)
+      //resDatas
+      const resIdx = resDatas.value.findIndex((res) => res.key === item.key)
+      if (resIdx >= 0) {
+        arr.push(Object.assign({}, item, resDatas.value[resIdx]))
+        setData.value = true
+      }
+
+      //selectDatas
+      if (selectDatas.value?.[item.key] !== undefined) {
+        const selContent = ref()
+
+        switch (item.key) {
+          case 'sTime':
+            if (selectDatas.value.catchTime != 'costom') {
+              const afterTime = new Date(Date.now() - selectDatas.value.catchTime * 1000 * 60)
+              selContent.value = `${afterTime.getFullYear()}-${datePushZero(afterTime.getMonth() + 1)}-${datePushZero(afterTime.getDate())}  ${datePushZero(afterTime.getHours())}:${datePushZero(afterTime.getMinutes())}`
+            } else selContent.value = `${selectDatas.value.sDate} ${selectDatas.value.sTime}`
+            break
+          case 'eTime':
+            if (selectDatas.value.catchTime != 'costom') {
+              const nowTime = new Date()
+              selContent.value = `${nowTime.getFullYear()}-${datePushZero(nowTime.getMonth() + 1)}-${datePushZero(nowTime.getDate())}  ${datePushZero(nowTime.getHours())}:${datePushZero(nowTime.getMinutes())}`
+            } else selContent.value = `${selectDatas.value.eDate} ${selectDatas.value.eTime}`
+            break
+          case 'rows':
+            resRows.value = selectDatas.value.rows
+            selContent.value = selectDatas.value[item.key]
+            break
+          default:
+            selContent.value = selectDatas.value[item.key]
+        }
+        arr.push(Object.assign({}, item, { content: selContent.value }))
+        setData.value = true
+      }
+
+      if (!setData.value) arr.push(item)
+
+      return arr
+    }, [])
+
+    resDatas.value = tempData
+
+    for (let i = 1; i <= selectDatas.value.rows; i++) {
+      chartData.value.labels.push(i)
+      chartData.value.values.push(i * Math.floor(Math.random() * 3) + 1)
+      chartData.value.colors.push(chartColors.value[i % chartColors.value.length])
+    }
+    createChart(chartData.value)
+  }
+
+  clearDatas = () => {
+    resDatas.value.length = 0
+    resRows.value = 0
+
+    doughnut.data.datasets.pop()
+    doughnut.update()
+  }
+
+  createChart = (data) => {
+    doughnut.data.labels = data.labels
+    doughnut.data.datasets.push({ data: data.values, backgroundColor: data.colors })
+    doughnut.update()
+    pie.classList.add('m-auto')
+  }
 })
 </script>
 
@@ -263,7 +300,7 @@ onMounted(() => {
           <p class="fs-4">尚無資料</p>
         </div>
       </div>
-      <div v-if="resDatas.length" class="col-9 py-3 d-flex flex-column h-100">
+      <div v-show="resDatas.length" class="col-9 py-3 d-flex flex-column h-100">
         <div class="px-2">
           <button type="button" class="btn text-light border-0 p-0 me-2">
             <i class="icon-weishang-toolicon-fileHTML fs-3"></i>
@@ -281,8 +318,10 @@ onMounted(() => {
         </div>
         <div class="row px-2">
           <div class="col-8 d-flex flex-column">
-            <div class="flex-fill">
-              <div id="d3chart"></div>
+            <div class="flex-fill align-content-center">
+              <div style="height: 360px">
+                <canvas id="chart"></canvas>
+              </div>
             </div>
             <div class="text-dark-700 bg-info py-2">
               <table width="100%">
